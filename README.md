@@ -1,7 +1,7 @@
 # FIAP - Faculdade de Informática e Administração Paulista
 
 <p align="center">
-<a href= "https://www.fiap.com.br/"><img src="assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Admnistração Paulista" border="0" width=40% height=40%></a>
+<a href= "https://www.fiap.com.br/"><img src="assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Administração Paulista" border="0" width=40% height=40%></a>
 </p>
 
 <br>
@@ -27,7 +27,7 @@ Este repositório corresponde à **Fase 1 – Batimentos de Dados** do projeto *
 
 - **Dados numéricos (Parte 1):** dataset de pacientes com variáveis clínicas (idade, sexo, pressão arterial, colesterol, sintomas, frequência cardíaca e diagnóstico), em CSV e XLSX, com links no Google Drive.
 - **Dados textuais (Parte 2):** textos em português sobre doenças cardiovasculares, prevenção e fatores de risco, na pasta `assets/docs/`, para uso em NLP nas fases seguintes.
-- **Dados visuais (Parte 3):** imagens de exames cardiológicos (a serem integradas conforme o enunciado), com justificativa de uso em visão computacional.
+- **Dados visuais (Parte 3):** imagens de ecocardiograma (dataset CAMUS), com link no Google Drive e justificativa de uso em visão computacional.
 
 O foco é a **relevância clínica** das informações e a **governança de dados** em IA, preparando a base para triagem, diagnósticos assistidos, monitoramento e soluções inovadoras no ecossistema de cardiologia inteligente do CardioIA.
 
@@ -131,6 +131,29 @@ Os textos utilizados nesta etapa estão no repositório na subpasta **`assets/do
 ### Relevância dessas análises para IA aplicada à saúde
 
 Essas técnicas permitem estruturar conhecimento a partir de literatura e relatórios em português, apoiar chatbots com respostas baseadas em evidências, triagem de dúvidas de pacientes e produção de material educativo personalizado — alinhado ao suporte digital ao paciente e à governança de informação em saúde no projeto CardioIA.
+
+
+## 📜 Parte 3 – Dados Visuais (Visão Computacional)
+
+O conjunto de imagens de exames cardiológicos está disponível em nuvem (acesso público para correção):
+
+- **Imagens (900 imagens):** [Google Drive – imagens de ecocardiogramas](https://drive.google.com/drive/folders/1d7L5sZIY1Y5VbKkFY0_aMOXQfmE7zFQj?usp=sharing) *(formato .png)*
+
+### Tipo de exame e conteúdo
+
+**Ecocardiograma** (ultrassom cardíaco 2D). As imagens são do dataset **CAMUS (Cardiac Acquisitions for Multi-structure Ultrasound Segmentation)**, versão disponível no Kaggle como [CAMUS - Echocardiography Image Dataset](https://www.kaggle.com/datasets/parsakh/camus-echocardiography-image-dataset), com vistas em apical 4 câmaras e 2 câmaras. O conjunto atende ao mínimo de 100 imagens em formato .jpg ou .png para análise por algoritmos de Visão Computacional.
+
+### Como as imagens podem ser analisadas por algoritmos de Visão Computacional
+
+As imagens de ecocardiograma (ultrassom cardíaco em escala de cinza, vista em leque) contêm câmaras cardíacas, paredes do miocárdio e estruturas como valvas, com variação de intensidade entre regiões anecóicas (sangue) e tecido ecogênico (musculatura). Essas características permitem:
+
+- **Detecção de padrões:** redes neurais convolucionais (CNNs) podem aprender a morfologia típica das câmaras e do miocárdio, a textura do tecido e a configuração anatômica de cada vista (apical 4 câmaras, 2 câmaras), permitindo classificação automática da vista e triagem com base em padrões de normalidade ou alteração.
+- **Identificação de bordas e estruturas:** técnicas de processamento de imagem (filtros, segmentação semântica, ex.: U-Net) permitem delimitar bordas endocárdicas e epicárdicas, segmentar câmaras e paredes e obter medições automáticas de espessura de parede, volumes e fração de ejeção, essenciais para laudos assistidos.
+- **Reconhecimento de anomalias:** modelos treinados com imagens anotadas podem sinalizar desvios em relação ao padrão esperado — como alterações de tamanho ou forma de câmaras, espessamento ou adelgaçamento de paredes, presença de derrame ou massas — e priorizar exames suspeitos para revisão humana, apoiando o diagnóstico na Fase 4 do CardioIA.
+
+### Importância dessas análises para projetos de IA aplicados à área da saúde
+
+A análise automática de imagens de ecocardiograma permite padronizar medições (reduzindo variabilidade entre observadores), escalar a triagem, auxiliar no diagnóstico precoce de alterações cardíacas e apoiar médicos com sugestões de achados — sem substituir o julgamento clínico. No CardioIA, esse conjunto alimentará o módulo **Coração em Imagens (Fase 4)**, alinhado a uma cardiologia inteligente e acessível.
 
 
 ## 🗃 Histórico de lançamentos
