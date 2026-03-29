@@ -29,22 +29,28 @@ cap1-a-busca-de-dados-inteligencia-cardiologica/
 ├── .gitattributes
 ├── .gitignore
 ├── datasets/
-│   ├── dataset_cardiologia.xlsx
-│   └── dataset_cardiologia.csv
-└── assets/
-    └── docs/
-        ├── a_promocao_da_saude_e_a_prevencao_integrada_dos_fatores_de_risco_para_doencas_cardiovasculares.txt
-        └── fatores_associados_as_doencas_cardiovasculares_na_populacao_adulta_brasileira_pesquisa_nacional_de_saude.txt
+│   ├── dataset_cardiologia.csv      # Fase 1 (Cleveland); reutilizado na Fase 2 alinhado às frases
+│   ├── frases_risco.csv             # Fase 2 — frases rotuladas (alto/baixo risco)
+│   ├── mapa_conhecimento.csv        # Fase 2 — pares de sintomas → doença (regras)
+│   └── sintomas_pacientes.txt       # Fase 2 — relatos fictícios (uma frase por linha)
+├── notebooks/
+│   └── fase2_cardioia_estetoscopio_digital.ipynb
+├── assets/
+│   └── docs/
+│       ├── a_promocao_da_saude_e_a_prevencao_integrada_dos_fatores_de_risco_para_doencas_cardiovasculares.txt
+│       └── fatores_associados_as_doencas_cardiovasculares_na_populacao_adulta_brasileira_pesquisa_nacional_de_saude.txt
+└── .cursor/
+    └── rules/                       # Regras do editor (contexto do projeto CardioIA)
 ```
 
-| Pasta/arquivo | Descrição |
-|--------------|-----------|
-| **README.md** | Guia e explicação geral do projeto (este arquivo). |
-| **datasets/** | Dados numéricos e bases de dados do projeto (CSV, XLSX). |
-| **assets/** | Elementos não estruturados: imagens, logos e arquivos de apoio. |
-| **assets/docs/** | Textos para NLP: artigos sobre DCV, prevenção e fatores de risco em saúde cardiovascular. |
-
-Conforme o andamento das fases do CardioIA, o código da Fase 2 fica em **notebooks/** (Google Colab); outras pastas como **config**, **document** ou **src** podem surgir nas fases seguintes, se necessário.
+| Pasta / arquivo | Descrição |
+|-----------------|-----------|
+| **README.md** | Guia geral do repositório, Fases 1 e 2 e referências. |
+| **datasets/** | Bases em CSV e TXT: Cleveland (Fase 1), mapa de sintomas, relatos e frases de risco (Fase 2). O XLSX do Cleveland, quando usado, segue o link da Parte 1 (Google Drive). |
+| **notebooks/** | Notebook único da **Fase 2** (Colab ou Jupyter): Parte 1 por regras + Parte 2 com TF-IDF, modelo híbrido e árvore de decisão. |
+| **assets/** | Logos e materiais de apoio ao README. |
+| **assets/docs/** | Textos em português para NLP na Fase 1 (DCV, prevenção, fatores de risco). |
+| **.cursor/rules/** | Convenções e requisitos do projeto para assistentes de código (opcional no clone). |
 
 ---
 
@@ -161,14 +167,45 @@ A análise automática de imagens de ecocardiograma permite padronizar mediçõe
 
 # FASE 2 — Estetoscópio Digital
 
-*(em desenvolvimento)*
+## 📜 Descrição
+
+Na **Fase 2**, o CardioIA simula um **estetoscópio digital**: apoio à triagem e à leitura de relatos em linguagem natural, com **governança** e limites explícitos (protótipo educacional, sem substituir avaliação médica).
+
+O trabalho está concentrado no notebook **`notebooks/fase2_cardioia_estetoscopio_digital.ipynb`**, pensado para rodar no **Google Colab** ou localmente, com a pasta **`datasets/`** acessível (raiz do repositório, pasta pai ou `/content/datasets` no Colab).
+
+## 📜 Parte 1 — Relatos, mapa de conhecimento e sugestão por regras
+
+- **`sintomas_pacientes.txt`:** relatos fictícios (uma linha por caso).
+- **`mapa_conhecimento.csv`:** colunas `sintoma_1`, `sintoma_2`, `doenca_associada`.
+- O notebook **cruza** sintomas do mapa com o texto, **pontua** coincidências e sugere **diagnóstico principal** e hipóteses alternativas em tabela.
+
+Isto **não** é aprendizado de máquina: são **regras fixas** derivadas do mapa — úteis para discutir transparência, incerteza e revisão humana.
+
+## 📜 Parte 2 — Classificação de risco com texto e dados da Fase 1
+
+- **`frases_risco.csv`:** colunas `frase` e `situacao` (`alto risco` / `baixo risco`).
+- **`dataset_cardiologia.csv`:** mesma **ordem de linhas** que `frases_risco.csv`, para alinhar idade, sexo, tipo de dor no peito, pressão arterial, colesterol e frequência cardíaca a cada frase.
+- **TF-IDF** (unigramas e bigramas) vetoriza o texto.
+- **Modelo híbrido:** regressão logística sobre **TF-IDF + variáveis numéricas** (via `scipy.sparse.hstack` e escalonamento).
+- **Comparações no notebook:** regressão **só com TF-IDF**; **árvore de decisão** no mesmo vetor híbrido e referência com árvore só em TF-IDF.
+- **Métricas:** acurácia, relatório de classificação, matriz de confusão; exemplos no conjunto de teste e frases coloquiais para discutir *domain shift*.
+
+### Dependências (Colab)
+
+Na primeira execução da sessão, o notebook instala explicitamente: `pandas`, `scikit-learn`, `scipy`.
+
+## 🎬 Vídeo da entrega
+
+Conforme o enunciado da disciplina, a entrega inclui um vídeo (até ~4 min) no YouTube como **não listado**. **Inclua o link abaixo após publicar:**
+
+- **YouTube (não listado):** *(cole o link aqui)*
 
 ---
 
 ## 🗃 Histórico de lançamentos
 
-* 0.1.0 - 04/03/2026
-    *
+* **0.2.0** — 28/03/2026 — Fase 2: notebook único, bases `frases_risco`, `mapa_conhecimento`, `sintomas_pacientes`; README atualizado.
+* **0.1.0** — 04/03/2026 — Fase 1: dados numéricos, textos em `assets/docs/` e referência a imagens CAMUS.
 
 ## 📋 Licença
 
